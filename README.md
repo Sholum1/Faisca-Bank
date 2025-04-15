@@ -1,3 +1,4 @@
+# TODO
 - [ ] Pool de threads
 - [ ] Structs das contas
 - [ ] Funções de transações
