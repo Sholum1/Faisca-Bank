@@ -1,0 +1,4 @@
+* TODO Pool de threads
+* TODO Structs das contas
+* TODO Funções de transações
+* TODO Semaforos
