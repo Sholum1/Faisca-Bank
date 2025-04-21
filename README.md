@@ -7,6 +7,7 @@
 
 # Projeto 1 de MC504 (Multi-threads)
 ## 🚀 Faísca Bank: O Sistema Bancário que Não Aposta na Sorte
+
 <div align="center">
   [![C](https://img.shields.io/badge/Linguagem-C-%23f34b7d?style=for-the-badge)](https://en.wikipedia.org/wiki/C_(programming_language))
 </div>
