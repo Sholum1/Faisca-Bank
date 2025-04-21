@@ -1,12 +1,15 @@
-all: main.o transacao.o
-	gcc -o main main.o transacao.o	
+SOURCE = main
 
-main.o: main.c
-	gcc -c main.c transacao.h
+#SETUP PARA IMPLICIT RULES
+CC = gcc
+CFLAGS = -std=c11 -Wall -Wvla -g -lm
 
-transação.o: transacao.c
-	gcc -c transacao.c transacao.h
+objects = transacao.o conta.o impressao.o banco.o
+libs = transacao.h conta.h impressao.h banco.h
+
+all: $(SOURCE) $(libs)
+
+$(SOURCE): $(objects) 
 
 clean:
-	rm -f *.o *.gch
-
+	rm -rf *.o *.gch $(SOURCE)

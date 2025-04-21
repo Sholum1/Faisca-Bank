@@ -1,5 +1,12 @@
 src/transacao
 
+#Arquivos sem extensão
+*
+!/**/
+!*.*
+!makefile
+!Makefile
+
 # Prerequisites
 *.d
 
