@@ -17,7 +17,7 @@
 
 ### 📌 **Descrição do Projeto**
 O **[Faísca Bet](https://github.com/defnotmee/faisca-bet)** trouxe diversão e oportunidades financeiras para todo país por meio de jogos
-simples e divertidos. Mas para que só se divertir dentro dos jogos se podemos se divertir fora também? Visando isso, criamos a **Faísca Bank**
+simples e divertidos. Mas para que só se divertir dentro dos jogos se podemos se divertir fora também? Visando isso, criamos o **Faísca Bank**!!!
 
 Nosso sistema de transações promove uma forma rápida e segura de realizar pagamentos bancários, sem toda a burocracia de bancos convencionais. Além
 disso, trazemos uma experiência divertida, pois toda vez que você realiza um pagamento, você tem a chance de receber um **Faísca Cashback** :tm:.
