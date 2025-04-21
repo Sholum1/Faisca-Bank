@@ -16,7 +16,14 @@
 ---
 
 ### 📌 **Descrição do Projeto**
-A **[Faísca Bet](https://github.com/defnotmee/faisca-bet)** tava perdendo transações como a Unicamp perde alunos no cálculo 1. O sistema antigo era mais lento que **fila de RU na hora do strogonoff**. Para resolver, nós criamos o **Faísca Bank**: um sistema bancário multi-threaded que processa transações mais rápido que calouro correndo pro bandejão.
+O **[Faísca Bet](https://github.com/defnotmee/faisca-bet)** trouxe diversão e oportunidades financeiras para todo país por meio de jogos
+simples e divertidos. Mas para que só se divertir dentro dos jogos se podemos se divertir fora também? Visando isso, criamos a **Faísca Bank**
+
+Nosso sistema de transações promove uma forma rápida e segura de realizar pagamentos bancários, sem toda a burocracia de bancos convencionais. Além
+disso, trazemos uma experiência divertida, pois toda vez que você realiza um pagamento, você tem a chance de receber um **Faísca Cashback** :tm:.
+
+Utilizamos um sistema multithread para realizar todo esse processammento, garantindo que suas transações ocorram de forma rápida e segura. Visto
+a alta tecnologia, também coletamos uma pequena taxa de cada transação, mas nada demais!
 
 ---
 
@@ -25,7 +32,5 @@ A **[Faísca Bet](https://github.com/defnotmee/faisca-bet)** tava perdendo trans
 - **Mutex** como segurança de festa de thread.
 - **Semáforos** controlando o caos igual farol da Marginal.
 - **Variáveis de condição** para threads dormirem igual aluno esperando o bandejão abrir.
-- **Detecção de transações duplicadas** (porque ninguém merece dinheiro sumindo *igual influencer promovendo curso de trading*).
+- **Faísca Cashback** chance de ganhar dinheiro fácil, provocando uma faísca na sua carteira.
 ---
-
-### 🚨 **Como o Faísca Bank Resolve o Problema?**
