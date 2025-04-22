@@ -4,8 +4,8 @@ SOURCE = main
 CC = gcc
 CFLAGS = -std=c11 -Wall -Wvla -g -lm
 
-objects = transacao.o conta.o impressao.o banco.o
-libs = transacao.h conta.h impressao.h banco.h
+objects = transacao.o conta.o impressao.o banco.o utility.o
+libs = transacao.h conta.h impressao.h banco.h utility.h
 
 all: $(SOURCE) $(libs)
 

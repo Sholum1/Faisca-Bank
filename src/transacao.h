@@ -1,3 +1,14 @@
+#pragma once
+
+#include<unistd.h>
+#include "pthread.h"
+#include "banco.h"
+#include "impressao.h"
+#include "utility.h"
+#include <stdio.h>
+#include <stdlib.h> 
+
+
 typedef struct {
     int id_from;
     int id_to;
