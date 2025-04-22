@@ -2,6 +2,7 @@
 #include "banco.h"
 #include "conta.h"
 #include "impressao.h"
+#include "pool.h"
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,13 +10,16 @@
 
 #define QTD_CONTAS 5
 #define MAX_LEN 50
-#define QTD_TRANSACOES 10
+#define QTD_TRANSACOES 100
+#define MAX_THREADS 5
+// Delay para cada print em microsegundos
+#define DELAY_PRINT 200000
 
 // #define printf(...)
 
 int main(){
 
-    banco* faisca = init_banco(QTD_CONTAS);
+    banco* faisca = construct_banco(QTD_CONTAS);
 
     for(int i = 0; i < QTD_CONTAS; i++){
         char nome[MAX_LEN];
@@ -44,29 +48,50 @@ int main(){
 
     printf("\n");
 
-    pthread_t threads[QTD_TRANSACOES];
-
+    work_pool* trabalhos = construct_work_pool(QTD_TRANSACOES);
     for(int i = 0; i < QTD_TRANSACOES; i++){
         void** args = malloc(sizeof(void*)*2);
         args[0] = faisca;
         args[1] = &t[i];
-        pthread_create(&threads[i], NULL, (void*)realiza_transacao, args);
+        add_work(trabalhos,realiza_transacao,args,2,i);
     }
 
-    for(int i = 0; i < QTD_TRANSACOES; i++){
-        int ok;
+    printf("Tamanho da fila: %d\n", size_queue(trabalhos->q));
 
-        printf("Vou forçar a thread %d a terminar\n", i);        
-        pthread_join(threads[i], (void*)&ok);
+    // Guarda o id da operação sendo processada pela i-ésima thread
+    int thread_work[MAX_THREADS];
+    /**
+     * Guarda status da thread atual:
+     * 
+     * 0 -> thread livre
+     * 1 -> thread esperando para trabalhar
+     * 2 -> thread processando
+     */
+    int thread_status[MAX_THREADS];
+    for(int i = 0; i < MAX_THREADS; i++)
+        thread_work[i] = -1;
+    
+    int still_working = 1;
 
-        printf("Forcei a transação %d\n", i);
-        printf("Status de execução de transação: %d\n", ok);
+    // Variável com thread que gerencia as outras threads
+    pthread_t* manager = start_working(trabalhos, MAX_THREADS, thread_work, thread_status, &still_working);
+
+    while(still_working){
+
+        // Wallysson, fazer print nesse loop!!!
+
+        situacoes_conta(faisca);
+        usleep(DELAY_PRINT);
     }
 
     printf("Status Final:\n");
     situacoes_conta(faisca);
 
+    pthread_join(*manager,NULL);
+    free(manager);
     destruct_banco(faisca);
+    destruct_work_pool(trabalhos);
+    
 
     return 0;
 }

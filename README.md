@@ -1,9 +1,10 @@
 # TODO
-- [ ] Pool de threads
+- [x] Pool de threads
 - [x] Structs das contas
 - [x] Funções de transações (parcialmente)
 - [ ] Faísca Cashback
 - [ ] Taxação
+- [ ] Visualização
 
 
 # Projeto 1 de MC504 (Multi-threads)
@@ -33,3 +34,9 @@ a alta tecnologia, também coletamos uma pequena taxa de cada transação, mas n
 - **Sistema Altamente Parametrizável** a partir de fatores como número de threads e contas.
 - **Faísca Cashback** para chance de ganhar dinheiro fácil, provocando uma faísca na sua carteira.
 ---
+
+### 🦧 **Como Usar**
+
+Basta usar o comando `bash run.sh` na pasta principal para executar uma simulação padrão.
+
+Para mudar os parametros da simulação, basta editar os defines na pasta source.

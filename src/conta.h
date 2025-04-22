@@ -4,11 +4,12 @@
 #include<string.h>
 
 typedef struct {
+    // Nome do usuário
     char nome[50];
     // Guarda saldo de cada conta em centavos (use impressao.c para transformar em reais)
     int saldo;
-    // Seed para o cálculo do faísca cashback
-    int seed;
+    // Seed para o cálculo do faísca cashback (e delay aleatório)
+    unsigned int seed;
     pthread_mutex_t mutex;   
 } conta;
 
