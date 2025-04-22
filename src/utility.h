@@ -1,1 +1,0 @@
-unsigned int rand_r(int *seed);

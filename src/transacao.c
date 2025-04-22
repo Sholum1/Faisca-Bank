@@ -1,8 +1,7 @@
 #include "transacao.h"
-// #define printf(...)
+#define printf(...)
 
-// Comente se não quiser delay artificial
-// #define ADD_DELAY
+
 
 /**
  * Dado um banco e um struct de transação, realiza transação entre duas contas
@@ -12,6 +11,8 @@
 void* realiza_transacao(void** args){
     banco* b = args[0];
     transacao* t = args[1];
+    int* status = args[2];
+    
     conta* conta_from = b->contas[t->id_from], *conta_to = b->contas[t->id_to];
 
     char buf_saldo[20];
@@ -26,19 +27,19 @@ void* realiza_transacao(void** args){
         pthread_mutex_lock(&conta_to->mutex);
         pthread_mutex_lock(&conta_from->mutex);
     }
+
+    *status = 2;
     
+    // Simulando processamento pesado (por exemplo, query a API)
+    usleep(rand_r(&conta_from->seed)%DELAY_TRANSACAO);
+
     cents_to_reais(t->valor, buf_saldo);
     printf("Transação de %d para %d no valor de %s está sendo processada.\n", t->id_from, t->id_to, buf_saldo);
     cents_to_reais(conta_from->saldo, buf_saldo);
     printf("Saldo de %s (id = %d): %s\n", conta_from->nome, t->id_from, buf_saldo);
     cents_to_reais(conta_to->saldo, buf_saldo);
     printf("Saldo de %s (id = %d): %s\n", conta_to->nome, t->id_to, buf_saldo);
-
-    #ifdef ADD_DELAY
-    // Simulando processamento pesado
-    sleep(rand_r(&conta_from->seed)%3);
-    #endif
-
+    
     if (conta_from->saldo < t->valor){
         printf("Erro: Conta %d não tem saldo suficiente.\n", t->id_from);
         assert(!pthread_mutex_unlock(&conta_from->mutex));

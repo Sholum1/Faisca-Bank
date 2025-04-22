@@ -4,9 +4,11 @@
 #include "pthread.h"
 #include "banco.h"
 #include "impressao.h"
-#include "utility.h"
 #include <stdio.h>
-#include <stdlib.h> 
+#include <stdlib.h>
+
+// Comente se não quiser delay artificial
+#define DELAY_TRANSACAO 500000
 
 
 typedef struct {

@@ -10,14 +10,16 @@
 
 #define QTD_CONTAS 5
 #define MAX_LEN 50
-#define QTD_TRANSACOES 20
+#define QTD_TRANSACOES 100
 #define MAX_THREADS 5
+// Delay para cada print em microsegundos
+#define DELAY_PRINT 200000
 
 // #define printf(...)
 
 int main(){
 
-    banco* faisca = init_banco(QTD_CONTAS);
+    banco* faisca = construct_banco(QTD_CONTAS);
 
     for(int i = 0; i < QTD_CONTAS; i++){
         char nome[MAX_LEN];
@@ -51,23 +53,45 @@ int main(){
         void** args = malloc(sizeof(void*)*2);
         args[0] = faisca;
         args[1] = &t[i];
-        add_work(trabalhos,realiza_transacao,args,i);
+        add_work(trabalhos,realiza_transacao,args,2,i);
     }
 
     printf("Tamanho da fila: %d\n", size_queue(trabalhos->q));
 
     // Guarda o id da operação sendo processada pela i-ésima thread
-    int threads[MAX_THREADS];
+    int thread_work[MAX_THREADS];
+    /**
+     * Guarda status da thread atual:
+     * 
+     * 0 -> thread livre
+     * 1 -> thread esperando para trabalhar
+     * 2 -> thread processando
+     */
+    int thread_status[MAX_THREADS];
     for(int i = 0; i < MAX_THREADS; i++)
-        threads[i] = -1;
+        thread_work[i] = -1;
     
-    start_working(trabalhos, MAX_THREADS, threads);
+    int still_working = 1;
+
+    // Variável com thread que gerencia as outras threads
+    pthread_t* manager = start_working(trabalhos, MAX_THREADS, thread_work, thread_status, &still_working);
+
+    while(still_working){
+
+        // Wallysson, fazer print nesse loop!!!
+
+        situacoes_conta(faisca);
+        usleep(DELAY_PRINT);
+    }
 
     printf("Status Final:\n");
     situacoes_conta(faisca);
 
+    pthread_join(*manager,NULL);
+    free(manager);
     destruct_banco(faisca);
     destruct_work_pool(trabalhos);
     
+
     return 0;
 }
