@@ -1,8 +1,9 @@
 # TODO
 - [ ] Pool de threads
-- [ ] Structs das contas
-- [ ] Funções de transações
-- [ ] Semaforos
+- [x] Structs das contas
+- [x] Funções de transações (parcialmente)
+- [ ] Faísca Cashback
+- [ ] Taxação
 
 
 # Projeto 1 de MC504 (Multi-threads)
@@ -29,8 +30,6 @@ a alta tecnologia, também coletamos uma pequena taxa de cada transação, mas n
 
 ### 🛠️ **Funcionalidades**
 - **Transações concorrentes** sem medo de *race conditions* (ou de processos judiciais).
-- **Mutex** como segurança de festa de thread.
-- **Semáforos** controlando o caos igual farol da Marginal.
-- **Variáveis de condição** para threads dormirem igual aluno esperando o bandejão abrir.
-- **Faísca Cashback** chance de ganhar dinheiro fácil, provocando uma faísca na sua carteira.
+- **Sistema Altamente Parametrizável** a partir de fatores como número de threads e contas.
+- **Faísca Cashback** para chance de ganhar dinheiro fácil, provocando uma faísca na sua carteira.
 ---
