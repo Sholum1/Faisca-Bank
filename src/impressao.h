@@ -3,6 +3,6 @@
 #include<stdio.h>
 #include"banco.h"
 
-char* cents_to_reais(int valor);
+void cents_to_reais(int valor, char* buf);
 
 void situacoes_conta(banco* faisca);

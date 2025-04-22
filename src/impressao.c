@@ -1,16 +1,13 @@
 #include"impressao.h"
-// Tire o comentário se você quiser que imprima o mutex
+// Tire o comentário se você quiser que imprima o estado mutex
 // #define CHECK_MUTEX
 
 
-char* cents_to_reais(int valor){
+void cents_to_reais(int valor, char* buf){
     int cents = valor%100;
     int reais = valor/100;
-    char* ret = malloc(20);
 
-    snprintf(ret,20,"R$%d.%d%d",reais,cents/10,cents%10);
-
-    return ret;
+    snprintf(buf,20,"R$%d.%02d",reais,cents);
 }
 
 void situacoes_conta(banco* faisca){
@@ -20,16 +17,20 @@ void situacoes_conta(banco* faisca){
         #ifndef CHECK_MUTEX
             pthread_mutex_lock(&cur_conta->mutex);
 
+            char buf[20];
+            cents_to_reais(cur_conta->saldo, buf);
             printf("Nome da conta: %s\n", cur_conta->nome);
-            printf("Saldo: %s\n", cents_to_reais(cur_conta->saldo));
+            printf("Saldo: %s\n", buf);
             
             pthread_mutex_unlock(&cur_conta->mutex);
         #else
+            char buf[20];
             // Literalmente uma race condition aqui em baixo!!!
             // Precisa fazer isso pois temos que checar se o mutex
             // está bloqueado, logo não podemos dar lock
+            cents_to_reais(cur_conta->saldo, buf);
             printf("Nome da conta: %s\n", cur_conta->nome);
-            printf("Saldo: %s\n", cents_to_reais(cur_conta->saldo));
+            printf("Saldo: %s\n", buf);
             int is_free = !pthread_mutex_trylock(&cur_conta->mutex);
             if(is_free){
                 printf("Mutex está livre!\n");

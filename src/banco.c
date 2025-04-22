@@ -29,6 +29,6 @@ int add_conta(banco* faisca, conta* x){
 void destruct_banco(banco* faisca){
     for(int i = 0; i < faisca->qtd_contas; i++)
         free(faisca->contas[i]);
-
+    free(faisca->contas);
     free(faisca);
 }

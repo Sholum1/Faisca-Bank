@@ -37,7 +37,9 @@ int main(){
         t[i].valor = rand() % 1000;
 
         printf("Transação %d:\n", i);
-        printf("De %d para %d com valor de %s\n", t[i].id_from, t[i].id_to, cents_to_reais(t[i].valor));
+        char buf[20];
+        cents_to_reais(t[i].valor, buf);
+        printf("De %d para %d com valor de %s\n", t[i].id_from, t[i].id_to, buf);
     }
 
     printf("\n");
@@ -54,9 +56,7 @@ int main(){
     for(int i = 0; i < QTD_TRANSACOES; i++){
         int ok;
 
-        printf("Vou forçar a thread %d a terminar\n", i);
-        situacoes_conta(faisca);
-        
+        printf("Vou forçar a thread %d a terminar\n", i);        
         pthread_join(threads[i], (void*)&ok);
 
         printf("Forcei a transação %d\n", i);
@@ -65,7 +65,6 @@ int main(){
 
     printf("Status Final:\n");
     situacoes_conta(faisca);
-
 
     destruct_banco(faisca);
 
