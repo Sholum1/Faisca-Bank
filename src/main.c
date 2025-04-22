@@ -2,6 +2,7 @@
 #include "banco.h"
 #include "conta.h"
 #include "impressao.h"
+#include "pool.h"
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +10,8 @@
 
 #define QTD_CONTAS 5
 #define MAX_LEN 50
-#define QTD_TRANSACOES 10
+#define QTD_TRANSACOES 20
+#define MAX_THREADS 5
 
 // #define printf(...)
 
@@ -44,24 +46,22 @@ int main(){
 
     printf("\n");
 
-    pthread_t threads[QTD_TRANSACOES];
-
+    work_pool* trabalhos = construct_work_pool(QTD_TRANSACOES);
     for(int i = 0; i < QTD_TRANSACOES; i++){
         void** args = malloc(sizeof(void*)*2);
         args[0] = faisca;
         args[1] = &t[i];
-        pthread_create(&threads[i], NULL, (void*)realiza_transacao, args);
+        add_work(trabalhos,realiza_transacao,args,i);
     }
 
-    for(int i = 0; i < QTD_TRANSACOES; i++){
-        int ok;
+    printf("Tamanho da fila: %d\n", size_queue(trabalhos->q));
 
-        printf("Vou forçar a thread %d a terminar\n", i);        
-        pthread_join(threads[i], (void*)&ok);
-
-        printf("Forcei a transação %d\n", i);
-        printf("Status de execução de transação: %d\n", ok);
-    }
+    // Guarda o id da operação sendo processada pela i-ésima thread
+    int threads[MAX_THREADS];
+    for(int i = 0; i < MAX_THREADS; i++)
+        threads[i] = -1;
+    
+    start_working(trabalhos, MAX_THREADS, threads);
 
     printf("Status Final:\n");
     situacoes_conta(faisca);

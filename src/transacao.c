@@ -2,7 +2,7 @@
 // #define printf(...)
 
 // Comente se não quiser delay artificial
-// #define ADD_DELAY
+#define ADD_DELAY
 
 /**
  * Dado um banco e um struct de transação, realiza transação entre duas contas
