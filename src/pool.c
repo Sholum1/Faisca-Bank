@@ -34,6 +34,7 @@ void* worker(void** args){
         pthread_mutex_unlock(&pool->mutex);
 
         cur_work->func(cur_work->args);
+        free(cur_work);
     }
     free(args);
     return 0;
@@ -51,4 +52,10 @@ void start_working(work_pool* pool, int thread_count, int current_work[]){
     for(int i = 0; i < thread_count; i++){
         pthread_join(threads[i],NULL);
     }
+    free(threads);
+}
+
+void destruct_work_pool(work_pool* pool){
+    destruct_queue(pool->q);
+    free(pool);
 }

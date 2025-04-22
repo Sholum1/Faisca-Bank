@@ -67,6 +67,7 @@ int main(){
     situacoes_conta(faisca);
 
     destruct_banco(faisca);
-
+    destruct_work_pool(trabalhos);
+    
     return 0;
 }
