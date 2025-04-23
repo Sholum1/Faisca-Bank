@@ -5,7 +5,7 @@
  */
 banco* construct_banco(int capacidade){
     banco* ret = malloc(sizeof(banco));
-
+    ret->reserva = 1000000;
     ret->qtd_contas = 0;
     ret->cap_contas = capacidade;
     ret->contas = malloc(capacidade*sizeof(conta*));

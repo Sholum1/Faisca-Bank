@@ -61,6 +61,9 @@ const char *slot_simbolos[SIMBOLOS][LINHAS] = {
 void cents_to_reais(int valor, char* buf){
     int cents = valor%100;
     int reais = valor/100;
+    if (cents < 0) {
+        cents = -cents;
+    }
 
     snprintf(buf,20,"R$%d.%02d",reais,cents);
 }
@@ -95,6 +98,15 @@ void situacoes_conta(banco* faisca) {
                 buf,
                 status);
     }
+
+    char buf[20];
+    printf("╠══════════════════════════════════════╬════════════════╬═════════════╣\n");
+
+    cents_to_reais(faisca->reserva, buf);
+    printf("║ %-36s ║ %14s ║ %-12s ║\n",
+            "RESERVA",
+            buf,
+            faisca->reserva > 0 ? "NÃO LISO" : "LISO");
 
     printf("╚══════════════════════════════════════╩════════════════╩═════════════╝\n");
 }
