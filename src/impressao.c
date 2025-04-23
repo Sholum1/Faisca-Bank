@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include"impressao.h"
-// Tire o comentário se você quiser que imprima o estado mutex
 #define SIMBOLOS 5
 #define LINHAS 7
-#define CHECK_MUTEX
+// Tire o comentário se você quiser que imprima o estado mutex
+#define CHECK_MUTEX // Não tinha nenhum comentário
 
 
 const char *slot_simbolos[SIMBOLOS][LINHAS] = {
@@ -63,42 +63,56 @@ void cents_to_reais(int valor, char* buf){
     snprintf(buf,20,"R$%d.%02d",reais,cents);
 }
 
-void situacoes_conta(banco* faisca){
-    printf("Situação das Contas:\n\n");
-    for(int i = 0; i < faisca->qtd_contas; i++){
+void situacoes_conta(banco* faisca) {
+    printf("╔═════════════════════════════════════════════════════════════════════╗\n");
+
+    printf("║%*s%*s║\n", 47, " SITUAÇÃO DAS CONTAS ", 24, "");
+
+    printf("╠══════════════════════════════════════╦════════════════╦═════════════╣\n");
+
+    printf("║ %-36s ║ %14s ║ %-11s ║\n", "CONTA", "SALDO", "STATUS");
+    printf("╠══════════════════════════════════════╬════════════════╬═════════════╣\n");
+
+    for(int i = 0; i < faisca->qtd_contas; i++) {
         conta* cur_conta = faisca->contas[i];
+        char buf[20];
+        cents_to_reais(cur_conta->saldo, buf);
 
         #ifndef CHECK_MUTEX
-            char buf[20];
-            cents_to_reais(cur_conta->saldo, buf);
-            printf("Nome da conta: %s\n", cur_conta->nome);
-            printf("Saldo: %s\n", buf);
+            printf("║ %-34.34s ║ %14s ║ %-13s ║\n",
+                  cur_conta->nome,
+                  buf,
+                  "─");
         #else
-            char buf[20];
-            cents_to_reais(cur_conta->saldo, buf);
-            printf("Nome da conta: %s\n", cur_conta->nome);
-            printf("Saldo: %s\n", buf);
-            int is_free = !pthread_mutex_trylock(&cur_conta->mutex);
-            if(is_free){
-                printf("A conta está livre para as threads usarem!\n");
-                pthread_mutex_unlock(&cur_conta->mutex);
-            } else {
-	        printf("A conta está sendo acessada e portanto está");
-	        printf(" inacessível a outras threads!\n");
-            }
+            int livrep = !pthread_mutex_trylock(&cur_conta->mutex);
+            char status[19];
+            const char* icon = livrep ? "🟢" : "🔴";
+
+            snprintf(status, 19, "%-8.8s %s",
+                    livrep ? "LIVRE" : "EM USO",
+                    icon);
+
+            if(livrep) pthread_mutex_unlock(&cur_conta->mutex);
+
+            printf("║ %-36.34s ║ %14s ║ %-13.18s ║\n",
+                  cur_conta->nome,
+                  buf,
+                  status);
         #endif
     }
 
-    printf("\n=====================================\n");
+    printf("╚══════════════════════════════════════╩════════════════╩═════════════╝\n");
 }
 
 void print_simbolos(const int simbolos[3]) {
+    printf("╔══════════════════════════════════════════╗\n");
     for (int i = 0; i < LINHAS; i++) {
-	printf("  %s  %s  %s\n",
+	printf("║ %s  %s  %s ║\n",
 	       slot_simbolos[simbolos[0]][i],
 	       slot_simbolos[simbolos[1]][i],
 	       slot_simbolos[simbolos[2]][i]);
     }
+    printf("╚══════════════════════════════════════════╝\n");
 }
 
 void print_jackpot(int value) {
