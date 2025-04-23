@@ -68,7 +68,7 @@ void cents_to_reais(int valor, char* buf){
     snprintf(buf,20,"R$%d.%02d",reais,cents);
 }
 
-void situacoes_conta(banco* faisca) {
+void situacao_contas(banco* faisca) {
     printf("╔═════════════════════════════════════════════════════════════════════╗\n");
 
     printf("║%*s%*s║\n", 47, " SITUAÇÃO DAS CONTAS ", 24, "");
@@ -106,9 +106,49 @@ void situacoes_conta(banco* faisca) {
     printf("║ %-36s ║ %14s ║ %-11s ║\n",
             "RESERVA",
             buf,
-            faisca->reserva > 0 ? "LUCRANDO" : "FALINDO");
+            faisca->reserva >= 0 ? (faisca->reserva > 0 ? "LUCRANDO 🤑" : "         🤔") : "FALINDO  🥺");
 
     printf("╚══════════════════════════════════════╩════════════════╩═════════════╝\n");
+}
+
+void situacao_threads(int qtd_threads, int thread_work[], int thread_status[], void* transacoes, conta* contas[]){
+    printf("╔═════════════════════════════════════════════════════════════════════╗\n");
+    printf("║%*s%*s║\n", 47, " SITUAÇÃO DAS THREADS ", 24, "");
+    printf("╠════╦═══════════════════════╦═══════════════════════╦════════════════╣\n");
+    printf("║ %-2s ║ %-21s ║ %-22s ║ %-14s ║\n", "ID", "PAGANTE", "DESTINATÁRIO", "STATUS");
+    printf("╠════╬═══════════════════════╬═══════════════════════╬════════════════╣\n");
+    for(int i = 0; i < qtd_threads; i++) {
+        char pagante[30] = "N/A";
+        char destinatario[30] = "N/A";
+
+        if(thread_work[i] != -1){
+            transacao* t = &((transacao*)transacoes)[thread_work[i]];
+            snprintf(pagante, 30, "%-20.20s", contas[t->id_from]->nome);
+            snprintf(destinatario, 30, "%-20.20s", contas[t->id_to]->nome);
+        }
+        const char* status;
+        const char* icon;
+        
+        if(thread_status[i] == 0) {
+            status = "LIVRE";
+            icon = "🟢";
+        } else if(thread_status[i] == 1){
+            status = "ESPERANDO";
+            icon = "🔴";
+        } else {
+            status = "EXECUTANDO";
+            icon = "⏳";
+        }
+
+        printf("║ %-2d ║ %-21s ║ %-21s ║ %-11s %s ║\n",
+               i,
+               pagante,
+               destinatario,
+               status,
+               icon);
+    }
+
+    printf("╚════╩═══════════════════════╩═══════════════════════╩════════════════╝\n");
 }
 
 void print_simbolos(const int simbolos[3]) {

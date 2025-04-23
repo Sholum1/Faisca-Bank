@@ -15,7 +15,7 @@
 #define MAX_THREADS 5
 
 // Delay para cada print em microsegundos
-#define DELAY_PRINT 1000000
+#define DELAY_PRINT 250000
 
 
 // #define printf(...)
@@ -38,7 +38,7 @@ int main(){
     }
 
     printf("Status Inicial:\n");
-    situacoes_conta(faisca);
+    situacao_contas(faisca);
 
     transacao t[QTD_TRANSACOES];
     for(int i = 0; i < QTD_TRANSACOES; i++){
@@ -71,6 +71,7 @@ int main(){
     fprintf(stderr, "Tamanho da fila: %d\n", size_queue(trabalhos->q));
 
     // Guarda o id da operação sendo processada pela i-ésima thread
+    // -1 indica que não está trabalhando
     int thread_work[MAX_THREADS];
     /**
      * Guarda status da thread atual:
@@ -91,12 +92,15 @@ int main(){
                       &still_working);
 
     while(still_working){
-        situacoes_conta(faisca);
+        situacao_contas(faisca);
+        situacao_threads(MAX_THREADS, thread_work, thread_status, t, faisca->contas);
+        fflush(stdout);
         usleep(DELAY_PRINT);
     }
 
     printf("Status Final:\n");
-    situacoes_conta(faisca);
+    situacao_contas(faisca);
+    situacao_threads(MAX_THREADS, thread_work, thread_status, t, faisca->contas);
 
     total_dinheiro -= faisca->reserva;
     for(int i = 0; i < QTD_CONTAS; i++)
