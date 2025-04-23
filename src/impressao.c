@@ -147,11 +147,11 @@ void print_jackpot(int value) {
     fprintf(stderr,"\n");
     print_simbolos(simbolos);
     
-    if (value == -1) {
+    if (value < 0) {
         
         fprintf(stderr,"\n!!! VENCEDOR !!!\n");
         fprintf(stderr,"$ $ $ RECEBEU: ");
-        cents_to_reais(JACKPOT_VAL, buf);
+        cents_to_reais(-value, buf);
         fprintf(stderr,"%s $ $ $\n", buf);
     
     } else {

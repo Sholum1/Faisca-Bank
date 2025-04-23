@@ -12,8 +12,8 @@ int calc_taxa(int valor){
 // dado taxa e jackpot
 int calc_delta(int valor, unsigned int* seed){
     int taxado = calc_taxa(valor);
-    if(rand_r(seed) == 0){
-        return -taxado*JACKPOT_MULT;
+    if(rand_r(seed)%JACKPOT_CHANCE == 0){
+        return -taxado*JACKPOT_MULT; // Recebeu jackpot!!!
     }
     return taxado;
 }
