@@ -12,8 +12,12 @@
 #define MAX_LEN 50
 #define QTD_TRANSACOES 100
 #define MAX_THREADS 5
+
 // Delay para cada print em microsegundos
-#define DELAY_PRINT 200000
+#define DELAY_PRINT 1000000
+
+// Taxa aplicada em cima das transações
+#define TAXA 0.05
 
 // #define printf(...)
 
@@ -40,15 +44,22 @@ int main(){
         }
         t[i].valor = rand() % 1000;
 
-	// Adicionar a taxa aqui
-	int taxa = 0; // teste
-	print_jackpot(taxa);
+        // Aplica taxa de transação
+        t[i].taxad = (int)(t[i].valor * TAXA);
+
+        int roll = rand() % 100;
+        if (roll == 0){
+            t[i].taxad = -1;
+        }
+        
+        print_jackpot(t[i].taxad);
 
         printf("Transação %d:\n", i);
         char buf[20];
         cents_to_reais(t[i].valor, buf);
         printf("De %d para %d com valor de %s\n",
-               t[i].id_from, t[i].id_to, buf);
+                t[i].id_from, t[i].id_to, buf);
+    
     }
 
     printf("\n");

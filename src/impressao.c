@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include <time.h>
 #include"impressao.h"
+#include"banco.h"
+#include"transacao.h"
+
 #define SIMBOLOS 5
 #define LINHAS 7
 // Tire o comentário se você quiser que imprima o estado mutex
 #define CHECK_MUTEX // Não tinha nenhum comentário
 
+#define JACKPOT_VAL 5000
 
 const char *slot_simbolos[SIMBOLOS][LINHAS] = {
     {// Cherries
@@ -120,30 +124,39 @@ void print_jackpot(int value) {
     char buf[20];
     srand(time(NULL));
     int simbolos[3];
+
+    if (value == -1) { // Ganhou
     
-    if (value > 0) { // Ganhou
-	int win_symbol = rand() % SIMBOLOS;
-	simbolos[0] = simbolos[1] = simbolos[2] = win_symbol;
-    } else {        // Perdeu
-	do {
-	    simbolos[0] = rand() % SIMBOLOS;
-	    simbolos[1] = rand() % SIMBOLOS;
-	    simbolos[2] = rand() % SIMBOLOS;
-	} while (simbolos[0] == simbolos[1] && simbolos[1] == simbolos[2]);
+        int win_symbol = rand() % SIMBOLOS;
+	    simbolos[0] = simbolos[1] = simbolos[2] = win_symbol;
+    
+    } else { // Perdeu
+
+        do { // Gera 3 símbolos diferentes
+        
+            simbolos[0] = rand() % SIMBOLOS;
+            simbolos[1] = rand() % SIMBOLOS;
+            simbolos[2] = rand() % SIMBOLOS;
+        
+        } while (simbolos[0] == simbolos[1] && simbolos[1] == simbolos[2]);
+    
     }
     
     printf("\n");
     print_simbolos(simbolos);
     
-    if (value > 0) {
-	printf("\n!!! VENCEDOR !!!\n");
-	printf("$ $ $ RECEBEU: ");
-	cents_to_reais(value, buf);
-	printf(" $ $ $\n");
+    if (value == -1) {
+        
+        printf("\n!!! VENCEDOR !!!\n");
+        printf("$ $ $ RECEBEU: ");
+        cents_to_reais(JACKPOT_VAL, buf);
+        printf("%s $ $ $\n", buf);
+    
     } else {
-	printf("\n~~~ Mais sorte na próxima tentativa! ~~~\n");
-	printf("L L L Foi taxado em: ");
-	cents_to_reais(value, buf);
-	printf(" $ $ $\n");
+
+        printf("\n~~~ Mais sorte na próxima tentativa! ~~~\n");
+        printf("L L L Foi taxado em: ");
+        cents_to_reais(value, buf);
+        printf("%s L L L\n", buf);
     }
 }
