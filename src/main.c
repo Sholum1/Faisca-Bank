@@ -46,7 +46,6 @@ int main(){
         }
         t[i].valor = rand() % 1000;
 
-<<<<<<< HEAD
         // Aplica taxa de transação
         t[i].taxad = (int)(t[i].valor * TAXA);
 
@@ -57,8 +56,6 @@ int main(){
         
         print_jackpot(t[i].taxad);
 
-=======
->>>>>>> c8f31d4a1627863ff080f9d26f021e057027a8bd
         printf("Transação %d:\n", i);
         char buf[20];
         cents_to_reais(t[i].valor, buf);
@@ -68,10 +65,6 @@ int main(){
     }
 
     printf("\n");
-
-    // Adicionar a taxa aqui
-    int taxa = 0; // teste
-    print_jackpot(taxa);
 
     work_pool* trabalhos = construct_work_pool(QTD_TRANSACOES);
     for(int i = 0; i < QTD_TRANSACOES; i++){
