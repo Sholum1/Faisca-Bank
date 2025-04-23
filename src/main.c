@@ -3,6 +3,7 @@
 #include "conta.h"
 #include "impressao.h"
 #include "pool.h"
+#include "lista_nomes.h"
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,11 +20,12 @@
 
 int main(){
 
+    srand(time(NULL));
     banco* faisca = construct_banco(QTD_CONTAS);
 
     for(int i = 0; i < QTD_CONTAS; i++){
         char nome[MAX_LEN];
-        snprintf(nome,MAX_LEN,"Conta %d", i);
+        snprintf(nome,MAX_LEN,"%s %s", lista_nomes[rand()%QTD_NOMES], lista_sobrenomes[rand()%QTD_SOBRENOMES]);
 
         add_conta(faisca,init_conta(nome,rand()%2000,rand()));
     }
@@ -40,10 +42,6 @@ int main(){
         }
         t[i].valor = rand() % 1000;
 
-	// Adicionar a taxa aqui
-	int taxa = 0; // teste
-	print_jackpot(taxa);
-
         printf("Transação %d:\n", i);
         char buf[20];
         cents_to_reais(t[i].valor, buf);
@@ -52,6 +50,10 @@ int main(){
     }
 
     printf("\n");
+
+    // Adicionar a taxa aqui
+    int taxa = 0; // teste
+    print_jackpot(taxa);
 
     work_pool* trabalhos = construct_work_pool(QTD_TRANSACOES);
     for(int i = 0; i < QTD_TRANSACOES; i++){

@@ -4,8 +4,6 @@
 #include"impressao.h"
 #define SIMBOLOS 5
 #define LINHAS 7
-// Tire o comentário se você quiser que imprima o estado mutex
-#define CHECK_MUTEX // Não tinha nenhum comentário
 
 
 const char *slot_simbolos[SIMBOLOS][LINHAS] = {
@@ -78,27 +76,20 @@ void situacoes_conta(banco* faisca) {
         char buf[20];
         cents_to_reais(cur_conta->saldo, buf);
 
-        #ifndef CHECK_MUTEX
-            printf("║ %-34.34s ║ %14s ║ %-13s ║\n",
-                  cur_conta->nome,
-                  buf,
-                  "─");
-        #else
-            int livrep = !pthread_mutex_trylock(&cur_conta->mutex);
-            char status[19];
-            const char* icon = livrep ? "🟢" : "🔴";
+        int livrep = !pthread_mutex_trylock(&cur_conta->mutex);
+        char status[19];
+        const char* icon = livrep ? "🟢" : "🔴";
 
-            snprintf(status, 19, "%-8.8s %s",
-                    livrep ? "LIVRE" : "EM USO",
-                    icon);
+        snprintf(status, 19, "%-8.8s %s",
+                livrep ? "LIVRE" : "EM USO",
+                icon);
 
-            if(livrep) pthread_mutex_unlock(&cur_conta->mutex);
+        if(livrep) pthread_mutex_unlock(&cur_conta->mutex);
 
-            printf("║ %-36.34s ║ %14s ║ %-13.18s ║\n",
-                  cur_conta->nome,
-                  buf,
-                  status);
-        #endif
+        printf("║ %-36.34s ║ %14s ║ %-13.18s ║\n",
+                cur_conta->nome,
+                buf,
+                status);
     }
 
     printf("╚══════════════════════════════════════╩════════════════╩═════════════╝\n");
@@ -122,28 +113,28 @@ void print_jackpot(int value) {
     int simbolos[3];
     
     if (value > 0) { // Ganhou
-	int win_symbol = rand() % SIMBOLOS;
-	simbolos[0] = simbolos[1] = simbolos[2] = win_symbol;
+        int win_symbol = rand() % SIMBOLOS;
+        simbolos[0] = simbolos[1] = simbolos[2] = win_symbol;
     } else {        // Perdeu
-	do {
-	    simbolos[0] = rand() % SIMBOLOS;
-	    simbolos[1] = rand() % SIMBOLOS;
-	    simbolos[2] = rand() % SIMBOLOS;
-	} while (simbolos[0] == simbolos[1] && simbolos[1] == simbolos[2]);
+        do {
+            simbolos[0] = rand() % SIMBOLOS;
+            simbolos[1] = rand() % SIMBOLOS;
+            simbolos[2] = rand() % SIMBOLOS;
+        } while (simbolos[0] == simbolos[1] && simbolos[1] == simbolos[2]);
     }
     
     printf("\n");
     print_simbolos(simbolos);
     
     if (value > 0) {
-	printf("\n!!! VENCEDOR !!!\n");
-	printf("$ $ $ RECEBEU: ");
-	cents_to_reais(value, buf);
-	printf(" $ $ $\n");
+        printf("\n!!! VENCEDOR !!!\n");
+        printf("$ $ $ RECEBEU: ");
+        cents_to_reais(value, buf);
+        printf(" $ $ $\n");
     } else {
-	printf("\n~~~ Mais sorte na próxima tentativa! ~~~\n");
-	printf("L L L Foi taxado em: ");
-	cents_to_reais(value, buf);
-	printf(" $ $ $\n");
+        printf("\n~~~ Mais sorte na próxima tentativa! ~~~\n");
+        printf("L L L Foi taxado em: ");
+        cents_to_reais(value, buf);
+        printf(" $ $ $\n");
     }
 }

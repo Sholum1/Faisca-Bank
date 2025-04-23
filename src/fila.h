@@ -1,5 +1,6 @@
 #pragma once
 #include<stdlib.h>
+#include<assert.h>
 // Implementação de uma fila através de um vetor circular.
 
 typedef struct{
