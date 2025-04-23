@@ -1,9 +1,26 @@
 #include "transacao.h"
 #define print_log(...) fprintf(stderr, __VA_ARGS__)
-#define JACKPOT_VAL 5000
-// Taxa aplicada em cima das transações
-#define TAXA 0.05
 
+int calc_taxa(int valor){
+    int taxa = valor*TAXA;
+    if(taxa == 0)
+        taxa = 10; // taxa mínima de 10 centavos
+    return taxa;
+}
+
+// Calcula quanto deve ser adicionado da reserva do banco
+// dado taxa e jackpot
+int calc_delta(int valor, unsigned int* seed){
+    int taxado = calc_taxa(valor);
+    if(rand_r(seed) == 0){
+        return -taxado*JACKPOT_MULT;
+    }
+    return taxado;
+}
+
+int valor_necessario(int valor){
+    return valor + calc_taxa(valor);
+}
 
 /**
  * Realiza transação entre duas contas de forma thread-safe.
@@ -57,7 +74,7 @@ void* realiza_transacao(void** args){
     print_log("Saldo de %s (id = %d): %s\n",
               conta_to->nome, t->id_to, buf_saldo);
     
-    if (conta_from->saldo < t->valor*(1+TAXA)) {
+    if (conta_from->saldo < valor_necessario(t->valor)) {
         print_log("Erro: Conta %d não tem saldo suficiente.\n", t->id_from);
         assert(!pthread_mutex_unlock(&conta_from->mutex));
         assert(!pthread_mutex_unlock(&conta_to->mutex));
@@ -66,12 +83,13 @@ void* realiza_transacao(void** args){
         return (void*)-1;
     }
 
-    conta_from->saldo -= t->valor + t->taxad;
+    int delta = calc_delta(t->valor, &conta_from->seed);
+    conta_from->saldo -= delta+t->valor;
     conta_to->saldo += t->valor;
 
     void** arg = malloc(3*sizeof(void*));
     arg[0] = b;
-    arg[1] = &t->taxad;
+    arg[1] = &delta;
     arg[2] = NULL;
         
     increase_reserva(arg);

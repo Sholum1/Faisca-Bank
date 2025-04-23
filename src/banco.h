@@ -17,7 +17,7 @@ typedef struct{
 /**
  * Inicializa váriavel de banco
  */
-banco* construct_banco(int capacidade);
+banco* construct_banco(int capacidade, int reserva);
 
 /**
  * Aumenta a reserva do banco

@@ -103,23 +103,23 @@ void situacoes_conta(banco* faisca) {
     printf("╠══════════════════════════════════════╬════════════════╬═════════════╣\n");
 
     cents_to_reais(faisca->reserva, buf);
-    printf("║ %-36s ║ %14s ║ %-12s ║\n",
+    printf("║ %-36s ║ %14s ║ %-11s ║\n",
             "RESERVA",
             buf,
-            faisca->reserva > 0 ? "NÃO LISO" : "LISO");
+            faisca->reserva > 0 ? "LUCRANDO" : "FALINDO");
 
     printf("╚══════════════════════════════════════╩════════════════╩═════════════╝\n");
 }
 
 void print_simbolos(const int simbolos[3]) {
-    printf("╔══════════════════════════════════════════╗\n");
+    fprintf(stderr,"╔══════════════════════════════════════════╗\n");
     for (int i = 0; i < LINHAS; i++) {
-	printf("║ %s  %s  %s ║\n",
+	fprintf(stderr,"║ %s  %s  %s ║\n",
 	       slot_simbolos[simbolos[0]][i],
 	       slot_simbolos[simbolos[1]][i],
 	       slot_simbolos[simbolos[2]][i]);
     }
-    printf("╚══════════════════════════════════════════╝\n");
+    fprintf(stderr,"╚══════════════════════════════════════════╝\n");
 }
 
 void print_jackpot(int value) {
@@ -144,21 +144,22 @@ void print_jackpot(int value) {
     
     }
     
-    printf("\n");
+    fprintf(stderr,"\n");
     print_simbolos(simbolos);
     
     if (value == -1) {
         
-        printf("\n!!! VENCEDOR !!!\n");
-        printf("$ $ $ RECEBEU: ");
+        fprintf(stderr,"\n!!! VENCEDOR !!!\n");
+        fprintf(stderr,"$ $ $ RECEBEU: ");
         cents_to_reais(JACKPOT_VAL, buf);
-        printf("%s $ $ $\n", buf);
+        fprintf(stderr,"%s $ $ $\n", buf);
     
     } else {
 
-        printf("\n~~~ Mais sorte na próxima tentativa! ~~~\n");
-        printf("L L L Foi taxado em: ");
+        fprintf(stderr,"\n~~~ Mais sorte na próxima tentativa! ~~~\n");
+        fprintf(stderr,"L L L Foi taxado em: ");
         cents_to_reais(value, buf);
-        printf("%s L L L\n", buf);
+        fprintf(stderr,"%s L L L\n", buf);
     }
+    
 }

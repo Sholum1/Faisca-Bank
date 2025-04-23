@@ -3,9 +3,9 @@
 /**
  * Inicializa váriavel de banco
  */
-banco* construct_banco(int capacidade){
+banco* construct_banco(int capacidade, int reserva){
     banco* ret = malloc(sizeof(banco));
-    ret->reserva = 1000000;
+    ret->reserva = reserva;
     ret->qtd_contas = 0;
     ret->cap_contas = capacidade;
     ret->contas = malloc(capacidade*sizeof(conta*));

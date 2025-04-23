@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define QTD_CONTAS 20
+#define QTD_CONTAS 10
 #define MAX_LEN 50
 #define QTD_TRANSACOES 400
 #define MAX_THREADS 5
@@ -17,27 +17,24 @@
 // Delay para cada print em microsegundos
 #define DELAY_PRINT 1000000
 
-// Taxa aplicada em cima das transações (lembrar de mudar no transacao.c)
-#define TAXA 0.05
-
-// Chance de receber jackpot (1 em JACKPOT_CHANCE)
-#define JACKPOT_CHANCE 200
-// Multiplicador da taxa que a pessoa recebe. 105
-// TEM QUE SER MENOR QUE A CHANCE DE JACKPOT SENÃO FALIMOS!!!
-#define JACKPOT_MULT 8
 
 // #define printf(...)
 
 int main(){
 
     srand(time(NULL));
-    banco* faisca = construct_banco(QTD_CONTAS);
+    banco* faisca = construct_banco(QTD_CONTAS, 0);
+
+    int total_dinheiro = 0;
 
     for(int i = 0; i < QTD_CONTAS; i++){
         char nome[MAX_LEN];
-        snprintf(nome,MAX_LEN,"%s %s", lista_nomes[rand()%QTD_NOMES], lista_sobrenomes[rand()%QTD_SOBRENOMES]);
+        snprintf(nome,MAX_LEN,"%s %s", lista_nomes[rand()%QTD_NOMES], 
+                lista_sobrenomes[rand()%QTD_SOBRENOMES]);
 
-        add_conta(faisca,init_conta(nome,rand()%2000,rand()));
+        int saldo_inicial = rand()%200000;
+        add_conta(faisca,init_conta(nome,saldo_inicial,rand()));
+        total_dinheiro += saldo_inicial;
     }
 
     printf("Status Inicial:\n");
@@ -50,19 +47,7 @@ int main(){
         while (t[i].id_from == t[i].id_to){
             t[i].id_to = rand() % QTD_CONTAS;
         }
-        t[i].valor = rand() % 1000;
-
-        // Aplica taxa de transação
-        t[i].taxad = (int)(t[i].valor * TAXA);
-        if(t[i].taxad == 0)
-            t[i].taxad = 5; // minimo de 5 centavos de taxa
-
-        int roll = rand() % JACKPOT_CHANCE;
-        if (roll == 0){
-            t[i].taxad *= -JACKPOT_MULT;
-        }
-        
-        print_jackpot(t[i].taxad);
+        t[i].valor = rand() % 100000;
 
         printf("Transação %d:\n", i);
         char buf[20];
@@ -113,11 +98,20 @@ int main(){
     printf("Status Final:\n");
     situacoes_conta(faisca);
 
+    total_dinheiro -= faisca->reserva;
+    for(int i = 0; i < QTD_CONTAS; i++)
+        total_dinheiro -= faisca->contas[i]->saldo;
+
+    char buf[20];
+    cents_to_reais(total_dinheiro, buf);
+
+    // Caso isso dê diferente de 0, significa que algum erro de lógica fez dinheiro sumir
+    printf("Diferença de dinheiro no início e fim do processo: %s\n", buf);
+
     pthread_join(*manager,NULL);
     free(manager);
     destruct_banco(faisca);
     destruct_work_pool(trabalhos);
-    
 
     return 0;
 }
