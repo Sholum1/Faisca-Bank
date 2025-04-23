@@ -5,7 +5,7 @@
 #include <unistd.h>
 // Comente se não quiser delay artificial
 
-#define DELAY_BANK 300000
+#define DELAY_BANK 100000
 
 typedef struct{
     conta** contas;

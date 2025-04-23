@@ -30,8 +30,10 @@ int add_conta(banco* faisca, conta* x){
 void increase_reserva(void** args){
     banco* faisca = args[0];
     int x = *(int *)args[1];
-    //int* status = args[2];
+    int* status = args[2];
     pthread_mutex_lock(&faisca->mutex);
+    if(status != 0)
+        *status = 2;
     
     // Simulando processamento pesado (por exemplo query em API)
     usleep(DELAY_BANK);
