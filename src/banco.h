@@ -20,6 +20,11 @@ typedef struct{
 banco* construct_banco(int capacidade);
 
 /**
+ * Aumenta a reserva do banco
+ */
+void increase_reserva(void** args);
+
+/**
  * Insere conta no banco e retorna o id da conta criada
  */
 int add_conta(banco* faisca, conta* x);
