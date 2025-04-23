@@ -1,10 +1,10 @@
 # TODO
 - [x] Pool de threads
 - [x] Structs das contas
-- [x] Funções de transações (parcialmente)
-- [ ] Faísca Cashback
-- [ ] Taxação
-- [ ] Visualização
+- [x] Funções de transações
+- [x] Faísca Cashback
+- [x] Taxação
+- [x] Visualização
 
 
 # Projeto 1 de MC504 (Multi-threads)
