@@ -58,3 +58,7 @@ A simulação do faísca bank é feita com base em vários parâmetros que se en
 #### **conta.h**
 
 - **MAX_LEN:** Tamanho máximo do nome das contas do Faísca Bank.
+
+#### **banco.h**
+
+- **DELAY_BANK:** Delay máximo (em microssegundos) associado a cada atualização na reserva do banco *(default 100000)*
