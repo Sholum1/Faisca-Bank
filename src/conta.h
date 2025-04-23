@@ -3,9 +3,11 @@
 #include<stdlib.h>
 #include<string.h>
 
+#define MAX_LEN 25
+
 typedef struct {
     // Nome do usuário
-    char nome[50];
+    char nome[MAX_LEN];
     // Guarda saldo de cada conta em centavos (use impressao.c para
     // transformar em reais)
     int saldo;

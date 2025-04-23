@@ -10,7 +10,6 @@
 #include <string.h>
 
 #define QTD_CONTAS 10
-#define MAX_LEN 50
 #define QTD_TRANSACOES 400
 #define MAX_THREADS 5
 
