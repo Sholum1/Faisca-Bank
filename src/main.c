@@ -20,6 +20,12 @@
 // Taxa aplicada em cima das transações
 #define TAXA 0.05
 
+// Chance de receber jackpot (1 em JACKPOT_CHANCE)
+#define JACKPOT_CHANCE 105
+// Multiplicador da taxa que a pessoa recebe. 
+// TEM QUE SER MENOR QUE A CHANCE DE JACKPOT SENÃO FALIMOS!!!
+#define JACKPOT_MULT 100
+
 // #define printf(...)
 
 int main(){
@@ -49,9 +55,9 @@ int main(){
         // Aplica taxa de transação
         t[i].taxad = (int)(t[i].valor * TAXA);
 
-        int roll = rand() % 100;
+        int roll = rand() % 105;
         if (roll == 0){
-            t[i].taxad = -1;
+            t[i].taxad *= -JACKPOT_MULT;
         }
         
         print_jackpot(t[i].taxad);
@@ -66,6 +72,7 @@ int main(){
 
     printf("\n");
 
+    // Faz setup dos trabalhos que serão realizados pela pool de threads
     work_pool* trabalhos = construct_work_pool(QTD_TRANSACOES);
     for(int i = 0; i < QTD_TRANSACOES; i++){
         void** args = malloc(sizeof(void*)*2);
@@ -74,7 +81,7 @@ int main(){
         add_work(trabalhos,realiza_transacao,args,2,i);
     }
 
-    printf("Tamanho da fila: %d\n", size_queue(trabalhos->q));
+    fprintf(stderr, "Tamanho da fila: %d\n", size_queue(trabalhos->q));
 
     // Guarda o id da operação sendo processada pela i-ésima thread
     int thread_work[MAX_THREADS];
@@ -97,9 +104,6 @@ int main(){
                       &still_working);
 
     while(still_working){
-
-        // Wallysson, fazer print nesse loop!!!
-
         situacoes_conta(faisca);
         usleep(DELAY_PRINT);
     }
