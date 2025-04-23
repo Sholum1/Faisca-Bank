@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #Script para executar o Faísca Bank
 #Uso: ./run.sh ou bash run.sh

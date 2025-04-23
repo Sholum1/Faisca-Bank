@@ -6,7 +6,8 @@
 typedef struct {
     // Nome do usuário
     char nome[50];
-    // Guarda saldo de cada conta em centavos (use impressao.c para transformar em reais)
+    // Guarda saldo de cada conta em centavos (use impressao.c para
+    // transformar em reais)
     int saldo;
     // Seed para o cálculo do faísca cashback (e delay aleatório)
     unsigned int seed;

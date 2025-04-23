@@ -19,9 +19,8 @@ typedef struct {
 
 /**
  * Dado um banco e um struct de transação, realiza transação entre duas contas
- * 
- * Retorna NULL se a transação tem sucesso e qualquer outra coisa se não há saldo suficiente na conta do pagante.
+ *
+ * Retorna NULL se a transação tem sucesso e qualquer outra coisa se
+ * não há saldo suficiente na conta do pagante.
  */
 void* realiza_transacao(void** args);
-
-

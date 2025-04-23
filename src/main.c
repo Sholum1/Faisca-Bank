@@ -40,10 +40,15 @@ int main(){
         }
         t[i].valor = rand() % 1000;
 
+	// Adicionar a taxa aqui
+	int taxa = 0; // teste
+	print_jackpot(taxa);
+
         printf("Transação %d:\n", i);
         char buf[20];
         cents_to_reais(t[i].valor, buf);
-        printf("De %d para %d com valor de %s\n", t[i].id_from, t[i].id_to, buf);
+        printf("De %d para %d com valor de %s\n",
+               t[i].id_from, t[i].id_to, buf);
     }
 
     printf("\n");
@@ -74,7 +79,9 @@ int main(){
     int still_working = 1;
 
     // Variável com thread que gerencia as outras threads
-    pthread_t* manager = start_working(trabalhos, MAX_THREADS, thread_work, thread_status, &still_working);
+    pthread_t *manager =
+        start_working(trabalhos, MAX_THREADS, thread_work, thread_status,
+                      &still_working);
 
     while(still_working){
 

@@ -10,16 +10,18 @@ typedef struct{
     // id_back -> id 1 após a parte de trás da queue
 } queue;
 
-// Constrói uma queue que o tamanho máximo é max_size e retorna um ponteiro pra ela.
+// Constrói uma queue que o tamanho máximo é max_size e retorna um
+// ponteiro pra ela.
 // O vetor na verdade tem tamanho max_size + 1 para poder diferenciar o caso de 
 // size = 0 vs size = max_size.
 queue* construct_queue(int max_size);
 
-// Retorna elemento na frente da fila. Undefined behaviour para filas de tamanho 0.
+// Retorna elemento na frente da fila. Undefined behaviour para
+// filas de tamanho 0.
 void* front_queue(queue* q);
 
-// Retira elemento na frente da fila e retorna seu valor. Undefined behaviour para
-// filas de tamanho 0.
+// Retira elemento na frente da fila e retorna seu valor. Undefined behaviour
+// para filas de tamanho 0.
 void* pop_queue(queue* q);
 
 // Coloca o valor x no final da fila.
