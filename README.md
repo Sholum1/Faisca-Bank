@@ -1,13 +1,4 @@
-# TODO
-- [x] Pool de threads
-- [x] Structs das contas
-- [x] Funções de transações
-- [x] Faísca Cashback
-- [x] Taxação
-- [x] Visualização
-
-
-# Projeto 1 de MC504 (Multi-threads)
+# Projeto 1 de MC504 (Sistemas Operacionais)
 ## 🚀 Faísca Bank: O Sistema Bancário que (Não) Aposta na Sorte
 <div align="center">
   <a href="https://en.wikipedia.org/wiki/C_(programming_language)">
