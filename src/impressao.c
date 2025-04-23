@@ -113,7 +113,6 @@ void print_simbolos(const int simbolos[3]) {
 void print_jackpot(int value) {
     
     char buf[20];
-    srand(time(NULL));
     int simbolos[3];
 
     if (value == -1) { // Ganhou

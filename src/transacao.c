@@ -74,7 +74,8 @@ void* realiza_transacao(void** args){
     arg[1] = &t->taxad;
     arg[2] = NULL;
         
-    increase_reserva(arg);    
+    increase_reserva(arg);
+    print_log("Reserva do banco aumentada em %d.\n", t->taxad);
 
     
     cents_to_reais(t->valor, buf_saldo);
