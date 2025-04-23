@@ -1,6 +1,10 @@
 #include "transacao.h"
 #define print_log(...) fprintf(stderr, __VA_ARGS__)
 #define JACKPOT_VAL 5000
+// Taxa aplicada em cima das transações
+#define TAXA 0.05
+
+
 /**
  * Realiza transação entre duas contas de forma thread-safe.
  * @param args[0]
@@ -21,10 +25,6 @@ void* realiza_transacao(void** args){
     int* status = args[2];
     
     conta* conta_from = b->contas[t->id_from], *conta_to = b->contas[t->id_to];
-
-    if (t->taxad == -1){
-        t->taxad = -JACKPOT_VAL;
-    }
 
     char buf_saldo[20];
     cents_to_reais(t->valor, buf_saldo);
@@ -57,7 +57,7 @@ void* realiza_transacao(void** args){
     print_log("Saldo de %s (id = %d): %s\n",
               conta_to->nome, t->id_to, buf_saldo);
     
-    if (conta_from->saldo < t->valor + t->taxad){
+    if (conta_from->saldo < t->valor*(1+TAXA)) {
         print_log("Erro: Conta %d não tem saldo suficiente.\n", t->id_from);
         assert(!pthread_mutex_unlock(&conta_from->mutex));
         assert(!pthread_mutex_unlock(&conta_to->mutex));

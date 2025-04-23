@@ -17,14 +17,14 @@
 // Delay para cada print em microsegundos
 #define DELAY_PRINT 1000000
 
-// Taxa aplicada em cima das transações
+// Taxa aplicada em cima das transações (lembrar de mudar no transacao.c)
 #define TAXA 0.05
 
 // Chance de receber jackpot (1 em JACKPOT_CHANCE)
-#define JACKPOT_CHANCE 105
-// Multiplicador da taxa que a pessoa recebe. 
+#define JACKPOT_CHANCE 200
+// Multiplicador da taxa que a pessoa recebe. 105
 // TEM QUE SER MENOR QUE A CHANCE DE JACKPOT SENÃO FALIMOS!!!
-#define JACKPOT_MULT 100
+#define JACKPOT_MULT 8
 
 // #define printf(...)
 
