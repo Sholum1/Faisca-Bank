@@ -54,8 +54,10 @@ int main(){
 
         // Aplica taxa de transação
         t[i].taxad = (int)(t[i].valor * TAXA);
+        if(t[i].taxad == 0)
+            t[i].taxad = 5; // minimo de 5 centavos de taxa
 
-        int roll = rand() % 105;
+        int roll = rand() % JACKPOT_CHANCE;
         if (roll == 0){
             t[i].taxad *= -JACKPOT_MULT;
         }

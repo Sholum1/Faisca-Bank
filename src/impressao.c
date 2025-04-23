@@ -127,7 +127,7 @@ void print_jackpot(int value) {
     char buf[20];
     int simbolos[3];
 
-    if (value == -1) { // Ganhou
+    if (value < 0 ) { // Ganhou
     
         int win_symbol = rand() % SIMBOLOS;
 	    simbolos[0] = simbolos[1] = simbolos[2] = win_symbol;
