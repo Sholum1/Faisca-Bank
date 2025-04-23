@@ -22,7 +22,7 @@ void* realiza_transacao(void** args){
     
     conta* conta_from = b->contas[t->id_from], *conta_to = b->contas[t->id_to];
 
-    if (t->taxad != -1){
+    if (t->taxad == -1){
         t->taxad = -JACKPOT_VAL;
     }
 
@@ -75,8 +75,6 @@ void* realiza_transacao(void** args){
     arg[2] = NULL;
         
     increase_reserva(arg);
-    print_log("Reserva do banco aumentada em %d.\n", t->taxad);
-
     
     cents_to_reais(t->valor, buf_saldo);
     print_log("Transação de %d para %d no valor de %s feita com sucesso.\n",

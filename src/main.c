@@ -9,9 +9,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define QTD_CONTAS 5
+#define QTD_CONTAS 20
 #define MAX_LEN 50
-#define QTD_TRANSACOES 100
+#define QTD_TRANSACOES 400
 #define MAX_THREADS 5
 
 // Delay para cada print em microsegundos
@@ -49,7 +49,7 @@ int main(){
         // Aplica taxa de transação
         t[i].taxad = (int)(t[i].valor * TAXA);
 
-        int roll = rand() % 100;
+        int roll = rand() % 500;
         if (roll == 0){
             t[i].taxad = -1;
         }
