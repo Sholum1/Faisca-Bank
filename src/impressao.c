@@ -184,22 +184,21 @@ void print_jackpot(int value) {
     
     }
     
-    fprintf(stderr,"\n");
+    fprintf(stderr,"===============================================\n");
     print_simbolos(simbolos);
     
     if (value < 0) {
         
-        fprintf(stderr,"\n!!! VENCEDOR !!!\n");
-        fprintf(stderr,"$ $ $ RECEBEU: ");
+        fprintf(stderr,"\n🔥🔥🔥 FAÍSCA 🔥🔥🔥 FAÍSCA 🔥🔥🔥 FAÍSCA 🔥🔥🔥 FAÍSCA 🔥🔥🔥\n");
         cents_to_reais(-value, buf);
-        fprintf(stderr,"%s $ $ $\n", buf);
+        fprintf(stderr,"💰💰💰 VOCÊ GANHOU INCRÍVEIS: %s !!! PARABÉNS!!! 💰💰💰\n", buf);
     
     } else {
 
-        fprintf(stderr,"\n~~~ Mais sorte na próxima tentativa! ~~~\n");
-        fprintf(stderr,"L L L Foi taxado em: ");
+        fprintf(stderr,"\n~~~ Mais sorte na próxima tentativa! ~~~\n");        
         cents_to_reais(value, buf);
-        fprintf(stderr,"%s L L L\n", buf);
+        fprintf(stderr,"💸💸💸 Taxa de transação: %s 💸💸💸\n", buf);
     }
     
+    fprintf(stderr,"===============================================\n");
 }

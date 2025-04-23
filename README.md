@@ -22,18 +22,25 @@ a alta tecnologia, também coletamos uma pequena taxa de cada transação, mas n
 
 ### 🛠️ **Funcionalidades**
 - **Transações concorrentes** sem medo de *race conditions* (ou de processos judiciais).
-- **Sistema Altamente Parametrizável** a partir de fatores como número de threads e contas.
+- **Sistema Altamente Parametrizável** a partir de fatores como número de threads, chance de cashback e porcentagem de taxa.
 - **Faísca Cashback** para chance de ganhar dinheiro fácil, provocando uma faísca na sua carteira.
 - **Linda Visualização** a partir de tabelas em ASCII via terminal.
 ---
 
 ### 🦧 **Como Usar**
 
-Basta usar o comando `bash run.sh` na pasta principal para executar uma simulação padrão.
+Basta usar o comando `bash run.sh` na pasta principal para executar uma simulação padrão. 
+Será impresso na saída padrão o estado inicial gerado pelo programa, assim como updates em tempo real
+do estado atual de execução do sistema do Faísca Bank.
 
-Para mudar os parametros da simulação, basta editar os defines na pasta src.
+Ademais, será gerado um arquivo `log`, indicando as transações que ocorreram entre os clientes,
+assim como ilustrações do caça níquel que apareceria na tela dos usuários ao fazer uma transação, indicando
+se ganharam ou não Faísca Cashback.
+
 
 ### 🔧 **Parâmetros**
+
+A simulação do faísca bank é feita com base em vários parâmetros que se encontram nos arquivos relevantes:
 
 #### **main.c**
 
