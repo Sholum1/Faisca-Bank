@@ -86,6 +86,7 @@ void* realiza_transacao(void** args){
     int delta = calc_delta(t->valor, &conta_from->seed);
     conta_from->saldo -= delta+t->valor;
     conta_to->saldo += t->valor;
+    print_jackpot(delta);
 
     void** arg = malloc(3*sizeof(void*));
     arg[0] = b;
