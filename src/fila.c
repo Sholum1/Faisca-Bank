@@ -10,8 +10,9 @@ queue* construct_queue(int max_size){
     queue* ret = malloc(sizeof(queue));
     if(!ret)
         exit(1);
-    ret->data = malloc(sizeof(void*)*(max_size + 1)); 
-    // preciso dar um espaço a mais para diferenciar o caso de fila de tamanho 0 e filha de tamanho max_size
+    ret->data = malloc(sizeof(void*)*(max_size + 1));
+    // preciso dar um espaço a mais para diferenciar o caso de fila de tamanho 0
+    // e filha de tamanho max_size
     if(!ret->data)
         exit(1);
     
@@ -27,6 +28,7 @@ void* front_queue(queue* q){
 }
 
 void* pop_queue(queue* q){
+    assert(size_queue(q));
     int old_id = q->id_front;
     mod_advance(&q->id_front, q->max_size + 1);
     return q->data[old_id];

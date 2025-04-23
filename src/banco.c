@@ -3,9 +3,9 @@
 /**
  * Inicializa váriavel de banco
  */
-banco* construct_banco(int capacidade){
+banco* construct_banco(int capacidade, int reserva){
     banco* ret = malloc(sizeof(banco));
-
+    ret->reserva = reserva;
     ret->qtd_contas = 0;
     ret->cap_contas = capacidade;
     ret->contas = malloc(capacidade*sizeof(conta*));
@@ -32,7 +32,8 @@ void increase_reserva(void** args){
     int x = *(int *)args[1];
     int* status = args[2];
     pthread_mutex_lock(&faisca->mutex);
-    *status = 2;
+    if(status != 0)
+        *status = 2;
     
     // Simulando processamento pesado (por exemplo query em API)
     usleep(DELAY_BANK);

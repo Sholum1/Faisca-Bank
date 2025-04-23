@@ -1,4 +1,4 @@
-#include"pool.h"
+#include "pool.h"
 
 work_pool* construct_work_pool(int max_proc){
     work_pool* ret = malloc(sizeof(work_pool));
@@ -7,7 +7,8 @@ work_pool* construct_work_pool(int max_proc){
     return ret;
 }
 
-void add_work(work_pool* pool, void* (*func)(void**), void** args, int qtd_args, int id){
+void add_work(work_pool *pool, void *(*func)(void **), void **args,
+              int qtd_args, int id){
     pthread_mutex_lock(&pool->mutex);
     work* new_work = malloc(sizeof(work));
     new_work->func = func;
@@ -57,7 +58,7 @@ void* worker(void** args){
 
 void setup_workers(void** args){
     work_pool* pool = (work_pool*)args[0];
-    // gambiarra para enviar inteiro sem warning
+    // Gambiarra para enviar inteiro sem warning
     int thread_count = (int)(uintptr_t)args[1];
     int* thread_work = (int*)args[2];
     int* thread_status = (int*)args[3];
@@ -80,7 +81,8 @@ void setup_workers(void** args){
     free(args);
 }
 
-pthread_t* start_working(work_pool* pool, int thread_count, int thread_work[], int thread_status[], int* still_working){
+pthread_t *start_working(work_pool *pool, int thread_count, int thread_work[],
+                         int thread_status[], int* still_working){
     pthread_t* manager = malloc(sizeof(pthread_t));
 
     void** args = malloc(sizeof(void*)*5);

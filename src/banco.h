@@ -5,7 +5,7 @@
 #include <unistd.h>
 // Comente se não quiser delay artificial
 
-#define DELAY_BANK 300000
+#define DELAY_BANK 100000
 
 typedef struct{
     conta** contas;
@@ -17,7 +17,12 @@ typedef struct{
 /**
  * Inicializa váriavel de banco
  */
-banco* construct_banco(int capacidade);
+banco* construct_banco(int capacidade, int reserva);
+
+/**
+ * Aumenta a reserva do banco
+ */
+void increase_reserva(void** args);
 
 /**
  * Insere conta no banco e retorna o id da conta criada
