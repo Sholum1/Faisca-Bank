@@ -25,7 +25,7 @@ int main(){
     srand(time(NULL));
     banco* faisca = construct_banco(QTD_CONTAS, 0);
 
-    int total_dinheiro = 0;
+    int total_dinheiro = faisca->reserva;
 
     for(int i = 0; i < QTD_CONTAS; i++){
         char nome[MAX_LEN];
