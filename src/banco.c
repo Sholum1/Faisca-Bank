@@ -32,7 +32,8 @@ void increase_reserva(void** args){
     int x = *(int *)args[1];
     int* status = args[2];
     pthread_mutex_lock(&faisca->mutex);
-    *status = 2;
+    if(status != 0)
+        *status = 2;
     
     // Simulando processamento pesado (por exemplo query em API)
     usleep(DELAY_BANK);
