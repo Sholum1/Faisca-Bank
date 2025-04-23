@@ -7,8 +7,6 @@
 
 #define SIMBOLOS 5
 #define LINHAS 7
-// Tire o comentário se você quiser que imprima o estado mutex
-#define CHECK_MUTEX // Não tinha nenhum comentário
 
 #define JACKPOT_VAL 5000
 
@@ -82,27 +80,20 @@ void situacoes_conta(banco* faisca) {
         char buf[20];
         cents_to_reais(cur_conta->saldo, buf);
 
-        #ifndef CHECK_MUTEX
-            printf("║ %-34.34s ║ %14s ║ %-13s ║\n",
-                  cur_conta->nome,
-                  buf,
-                  "─");
-        #else
-            int livrep = !pthread_mutex_trylock(&cur_conta->mutex);
-            char status[19];
-            const char* icon = livrep ? "🟢" : "🔴";
+        int livrep = !pthread_mutex_trylock(&cur_conta->mutex);
+        char status[19];
+        const char* icon = livrep ? "🟢" : "🔴";
 
-            snprintf(status, 19, "%-8.8s %s",
-                    livrep ? "LIVRE" : "EM USO",
-                    icon);
+        snprintf(status, 19, "%-8.8s %s",
+                livrep ? "LIVRE" : "EM USO",
+                icon);
 
-            if(livrep) pthread_mutex_unlock(&cur_conta->mutex);
+        if(livrep) pthread_mutex_unlock(&cur_conta->mutex);
 
-            printf("║ %-36.34s ║ %14s ║ %-13.18s ║\n",
-                  cur_conta->nome,
-                  buf,
-                  status);
-        #endif
+        printf("║ %-36.34s ║ %14s ║ %-13.18s ║\n",
+                cur_conta->nome,
+                buf,
+                status);
     }
 
     printf("╚══════════════════════════════════════╩════════════════╩═════════════╝\n");

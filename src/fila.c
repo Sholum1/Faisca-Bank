@@ -28,6 +28,7 @@ void* front_queue(queue* q){
 }
 
 void* pop_queue(queue* q){
+    assert(size_queue(q));
     int old_id = q->id_front;
     mod_advance(&q->id_front, q->max_size + 1);
     return q->data[old_id];
