@@ -1,7 +1,9 @@
+// Implementação de uma fila através de um vetor circular.
+// Baseado em uma implementação usada em MC202
+
 #pragma once
 #include<stdlib.h>
 #include<assert.h>
-// Implementação de uma fila através de um vetor circular.
 
 typedef struct{
     void** data;
@@ -10,6 +12,7 @@ typedef struct{
     // id_front -> id da frente da queue
     // id_back -> id 1 após a parte de trás da queue
 } queue;
+// Implementação de uma fila através de um vetor circular.
 
 // Constrói uma queue que o tamanho máximo é max_size e retorna um
 // ponteiro pra ela.

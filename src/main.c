@@ -36,8 +36,7 @@ int main(){
         total_dinheiro += saldo_inicial;
     }
 
-    printf("Status Inicial:\n");
-    situacao_contas(faisca);
+    fprintf(stderr, "Lista de transações:\n");
 
     transacao t[QTD_TRANSACOES];
     for(int i = 0; i < QTD_TRANSACOES; i++){
@@ -48,15 +47,15 @@ int main(){
         }
         t[i].valor = rand() % 100000;
 
-        printf("Transação %d:\n", i);
+        fprintf(stderr,"Transação %d:\n", i);
         char buf[20];
         cents_to_reais(t[i].valor, buf);
-        printf("De %d para %d com valor de %s\n",
+        fprintf(stderr,"De %d para %d com valor de %s\n",
                 t[i].id_from, t[i].id_to, buf);
     
     }
 
-    printf("\n");
+    fprintf(stderr,"\n");
 
     // Faz setup dos trabalhos que serão realizados pela pool de threads
     work_pool* trabalhos = construct_work_pool(QTD_TRANSACOES);
@@ -69,8 +68,10 @@ int main(){
 
     fprintf(stderr, "Tamanho da fila: %d\n", size_queue(trabalhos->q));
 
-    // Guarda o id da operação sendo processada pela i-ésima thread
-    // -1 indica que não está trabalhando
+    /**
+     * Guarda o id da operação realizada pela i-ésima thread.
+     * -1 se não está sendo realizada nenhuma operação.
+     */
     int thread_work[MAX_THREADS];
     /**
      * Guarda status da thread atual:
@@ -81,7 +82,7 @@ int main(){
      */
     int thread_status[MAX_THREADS];
     for(int i = 0; i < MAX_THREADS; i++)
-        thread_work[i] = -1;
+        thread_work[i] = -1, thread_status[i] = 0;
     
     int still_working = 1;
 
@@ -91,6 +92,8 @@ int main(){
                       &still_working);
 
     while(still_working){
+        // Limpa a tela. Comente a linha para poder ver o histórico de estados.
+        printf("\e[1;1H\e[2J");
         situacao_contas(faisca);
         situacao_threads(MAX_THREADS, thread_work, thread_status, t, faisca->contas);
         fflush(stdout);

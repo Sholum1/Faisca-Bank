@@ -1,5 +1,5 @@
 #include "transacao.h"
-#define print_log(...) fprintf(stderr, __VA_ARGS__)
+#include "impressao.h"
 
 int calc_taxa(int valor){
     int taxa = valor*TAXA;
@@ -45,7 +45,7 @@ void* realiza_transacao(void** args){
 
     char buf_saldo[20];
     cents_to_reais(t->valor, buf_saldo);
-    print_log(
+    fprintf(stderr,
         "Transação de %d para %d no valor de %s está pronta para começar.\n",
         t->id_from, t->id_to, buf_saldo);
     
@@ -65,17 +65,17 @@ void* realiza_transacao(void** args){
     usleep(rand_r(&conta_from->seed)%DELAY_TRANSACAO);
 
     cents_to_reais(t->valor, buf_saldo);
-    print_log("Transação de %d para %d no valor de %s está sendo processada.\n",
+    fprintf(stderr,"Transação de %d para %d no valor de %s está sendo processada.\n",
               t->id_from, t->id_to, buf_saldo);
     cents_to_reais(conta_from->saldo, buf_saldo);
-    print_log("Saldo de %s (id = %d): %s\n",
+    fprintf(stderr,"Saldo de %s (id = %d): %s\n",
               conta_from->nome, t->id_from, buf_saldo);
     cents_to_reais(conta_to->saldo, buf_saldo);
-    print_log("Saldo de %s (id = %d): %s\n",
+    fprintf(stderr,"Saldo de %s (id = %d): %s\n",
               conta_to->nome, t->id_to, buf_saldo);
     
     if (conta_from->saldo < valor_necessario(t->valor)) {
-        print_log("Erro: Conta %d não tem saldo suficiente.\n", t->id_from);
+        fprintf(stderr,"Erro: Conta %d não tem saldo suficiente.\n", t->id_from);
         assert(!pthread_mutex_unlock(&conta_from->mutex));
         assert(!pthread_mutex_unlock(&conta_to->mutex));
 
@@ -96,7 +96,7 @@ void* realiza_transacao(void** args){
     increase_reserva(arg);
     
     cents_to_reais(t->valor, buf_saldo);
-    print_log("Transação de %d para %d no valor de %s feita com sucesso.\n",
+    fprintf(stderr,"Transação de %d para %d no valor de %s feita com sucesso.\n",
               t->id_from, t->id_to, buf_saldo);
 
     assert(!pthread_mutex_unlock(&conta_from->mutex));

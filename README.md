@@ -29,14 +29,14 @@ a alta tecnologia, também coletamos uma pequena taxa de cada transação, mas n
 
 ### 🦧 **Como Usar**
 
-Basta usar o comando `bash run.sh` na pasta principal para executar uma simulação padrão. 
+Basta usar o comando `bash run.sh` na pasta principal para executar uma simulação padrão.  Essa simulação gerá contas aleatórias e
+simula o sistema bancário realizando diversas transações (a quantidade de contas e transações é configurável via parâmetros).
 Será impresso na saída padrão o estado inicial gerado pelo programa, assim como updates em tempo real
 do estado atual de execução do sistema do Faísca Bank.
 
 Ademais, será gerado um arquivo `log`, indicando as transações que ocorreram entre os clientes,
 assim como ilustrações do caça níquel que apareceria na tela dos usuários ao fazer uma transação, indicando
 se ganharam ou não Faísca Cashback.
-
 
 ### 🔧 **Parâmetros**
 
