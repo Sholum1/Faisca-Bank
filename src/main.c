@@ -91,6 +91,10 @@ int main(){
         start_working(trabalhos, MAX_THREADS, thread_work, thread_status,
                       &still_working);
 
+    /**
+     * Acessar still_working causa um data race inócuo, pois o único write que ele recebe
+     * é ser settado para 0. 
+     */
     while(still_working){
         // Limpa a tela. Comente a linha para poder ver o histórico de estados.
         printf("\e[1;1H\e[2J");
