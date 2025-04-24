@@ -1,3 +1,8 @@
+/**
+ * Arquivo com uma lista de nomes e sobrenomes para o simulador gerar nomes de conta
+ */
+
+
 #define QTD_NOMES 278
 #define QTD_SOBRENOMES 391
 const char* lista_nomes[QTD_NOMES] = {

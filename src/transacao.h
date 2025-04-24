@@ -1,9 +1,12 @@
+/**
+ * Implementa o necessário para fazer uma transação.
+ */
+
 #pragma once
 
 #include<unistd.h>
 #include"pthread.h"
 #include"banco.h"
-#include"impressao.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -21,7 +24,7 @@
 typedef struct {
     int id_from;
     int id_to;
-    int valor; // Lembra de dividir por 100;   
+    int valor; // Valor guardado em centavos
 } transacao;
 
 /**

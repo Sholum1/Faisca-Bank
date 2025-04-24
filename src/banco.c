@@ -1,7 +1,8 @@
 #include"banco.h"
 
 /**
- * Inicializa váriavel de banco
+ * Inicializa váriavel de banco com uma certa capacidade de contas e
+ * uma reserva inicial.
  */
 banco* construct_banco(int capacidade, int reserva){
     banco* ret = malloc(sizeof(banco));
@@ -15,7 +16,14 @@ banco* construct_banco(int capacidade, int reserva){
 }
 
 /**
- * Insere conta no banco e retorna o id da conta criada
+ * Aumenta reserva do banco em um valor (positivo ou negativo)
+ * @param args[0]
+ * Ponteiro para o bando
+ * @param args[1]
+ * Ponteiro para o valor em dinheiro aumentado
+ * @param args[2]
+ * Ponteiro para uma variável de status que é settada para 2 quando
+ * é feito processamento. Caso seja NULL, essa funcionalidade é ignorada.
  */
 int add_conta(banco* faisca, conta* x){
     pthread_mutex_lock(&faisca->mutex);
@@ -44,7 +52,7 @@ void increase_reserva(void** args){
 }
 
 /**
- * Libera memória de banco.
+ * Libera memória do struct banco.
  */
 void destruct_banco(banco* faisca){
     for(int i = 0; i < faisca->qtd_contas; i++)

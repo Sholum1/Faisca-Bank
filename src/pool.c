@@ -1,5 +1,8 @@
 #include "pool.h"
 
+/**
+ * Cria pool de trabalho com capacidade de max_proc processos.
+ */
 work_pool* construct_work_pool(int max_proc){
     work_pool* ret = malloc(sizeof(work_pool));
     ret->q = construct_queue(max_proc);
@@ -7,6 +10,11 @@ work_pool* construct_work_pool(int max_proc){
     return ret;
 }
 
+/**
+ * Adiciona trabalho na pool. Thread-safe. Potencialmente mais trabalhos
+ * podem ser adicionados enquanto as threads estão executando, mas isso não
+ * é usado no projeto.
+ */
 void add_work(work_pool *pool, void *(*func)(void **), void **args,
               int qtd_args, int id){
     pthread_mutex_lock(&pool->mutex);
@@ -19,6 +27,11 @@ void add_work(work_pool *pool, void *(*func)(void **), void **args,
     pthread_mutex_unlock(&pool->mutex);
 }
 
+/**
+ * Processo que repetidamente pega mais trabalhos para fazer enquanto a pool de trabalhos (args[0])
+ * não estiver vazia. Mantém qual o id do proceso que está trabalhando em current_id (args[1]) e
+ * o status do processo em current_status (args[2]).
+ */
 void* worker(void** args){
     work_pool* pool = args[0];
     int* current_id = args[1];
@@ -56,6 +69,10 @@ void* worker(void** args){
     return 0;
 }
 
+/**
+ * Processo que gerencia a pool de threads. Feita para receber argumentos
+ * de start_working.
+ */
 void setup_workers(void** args){
     work_pool* pool = (work_pool*)args[0];
     // Gambiarra para enviar inteiro sem warning
@@ -81,6 +98,15 @@ void setup_workers(void** args){
     free(args);
 }
 
+/**
+ * Faz setup de pool de threads para executar as tarefas. Essa função cria uma thread
+ * para gerenciar thread_count outras threads para executar os trabalhos de pool, mantendo
+ * atualizado os vetores de thread_work e thread_status como definidos em main.c. Além disso
+ * deixa atualizado a flag still_working que é settada para 1 enquanto ainda trabaho para ser
+ * executado pela pool de threads.
+ * 
+ * @return Retona ponteiro para uma pthread que gerencia a pool de threads.
+ */
 pthread_t *start_working(work_pool *pool, int thread_count, int thread_work[],
                          int thread_status[], int* still_working){
     pthread_t* manager = malloc(sizeof(pthread_t));
@@ -98,6 +124,9 @@ pthread_t *start_working(work_pool *pool, int thread_count, int thread_work[],
     return manager;
 }
 
+/**
+ * Libera espaço ocupado pela pool de trabalhos
+ */
 void destruct_work_pool(work_pool* pool){
     destruct_queue(pool->q);
     free(pool);
