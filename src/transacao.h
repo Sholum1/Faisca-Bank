@@ -16,7 +16,7 @@
 #define TAXA 0.05
 
 // Chance de receber jackpot (1 em JACKPOT_CHANCE)
-#define JACKPOT_CHANCE 75
+#define JACKPOT_CHANCE 100  
 // Multiplicador da taxa que a pessoa recebe.
 // TEM QUE SER MENOR QUE A CHANCE DE JACKPOT SENÃO FALIMOS!!!
 #define JACKPOT_MULT 50
